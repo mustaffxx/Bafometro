@@ -12,7 +12,7 @@
 #define constanteArLimpo 60
 
 /* GLOBAIS */
-const int R2 = 1000;
+const int R2 = 2000;
 
 float resLocal = 0.0f;
 float resGas = 0.0f;

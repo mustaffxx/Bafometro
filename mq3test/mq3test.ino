@@ -1,7 +1,7 @@
 
 #define PIN_MQ2 A0 //define pin sensor MQ-2
 
-#define VRL_VALOR 1000 //resistência de carga
+#define VRL_VALOR 200 //resistência de carga
 #define RO_FATOR_AR_LIMPO 60 //resistência do sensor em ar limpo 9.83 de acordo com o datasheet
                                                      
 #define ITERACOES_CALIBRACAO 50    //numero de leituras para calibracao
@@ -77,12 +77,9 @@ float leitura_MQ2(int mq_pin)
 
 int getQuantidadeGasMQ(float rs_ro, int gas_id)
 {
-  if ( gas_id == 0 ) {
-     return calculaGasPPM(rs_ro,LPGCurve);
-  }
-  else{} 
 
-  return 0;
+  return calculaGasPPM(rs_ro,LPGCurve);
+  
 }
 
 int  calculaGasPPM(float rs_ro, float *pcurve) //Rs/R0 é fornecido para calcular a concentracao em PPM do gas em questao. O calculo eh em potencia de 10 para sair da logaritmica
