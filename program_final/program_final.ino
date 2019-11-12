@@ -12,7 +12,7 @@
 #define constanteArLimpo 60
 
 /* GLOBAIS */
-const int R2 = 2000;
+const int R2 = 10;
 
 float resLocal = 0.0f;
 float resGas = 0.0f;
@@ -23,6 +23,7 @@ float bac;
 void setup() 
 {
     Serial.begin(9600);
+    //pinMode(pinoSensor, INPUT);
     calibrarSensor();
 }
  
@@ -31,7 +32,8 @@ void loop()
   bac = realizaLeitura();
   Serial.print("BAC = ");
   Serial.print(bac);  //convert to g/dL
-  Serial.print(" mg/L\n\n");
+  Serial.print(" mg/L\n");
+  Serial.println(analogRead(pinoSensor));
   delay(200);
 }
 
