@@ -6,7 +6,7 @@ LiquidCrystal lcd(7, 6, 5, 4, 3, 2);
 #define pinoSensor A0
 
 /* CALIBRAÇÃO */
-#define numLoopsCalibrar 50
+#define numLoopsCalibrar 1000
 #define intervaloCalibrar 5
 
 /* LEITURA */
@@ -47,21 +47,21 @@ void setup()
   pinMode(bt1, INPUT_PULLUP);
   pinMode(bt2, INPUT_PULLUP);
 
-  for(int i = 0; i < 1; i++){
+  for(int i = 0; i < 15; i++){
     lcd.setCursor(3, 0);
     lcd.print("BAFOMETRO!");
     lcd.setCursor(3, 1);          
     lcd.print("Loading");
-    delay(100);
+    delay(250);
     lcd.setCursor(3, 1);
     lcd.print("Loading.");
-    delay(100);
+    delay(250);
     lcd.setCursor(3, 1);
     lcd.print("Loading..");
-    delay(150);
+    delay(250);
     lcd.setCursor(3, 1);
     lcd.print("Loading...");
-    delay(150);
+    delay(250);
     lcd.clear();
   }
 
@@ -74,6 +74,10 @@ void setup()
 
 void loop()
 {
+  if(analogRead(bt2) <= 350){
+    calibrarSensor();
+    lcd.clear();
+  }
   main_menu();
   //Serial.println(realizaLeitura());
 }
@@ -84,7 +88,10 @@ void main_menu(){
   lcd.setCursor(0, 0);
   lcd.print(">");
   lcd.setCursor(1, 0);
-  lcd.print(" Iniciar teste");
+  lcd.print("Iniciar teste");
+  lcd.setCursor(0, 1);
+  lcd.print("R0: ");
+  lcd.print(resLocal);
   /*Serial.print("BT1: ");
   Serial.print(analogRead(bt1));
   Serial.print("  BT2: ");
@@ -120,7 +127,7 @@ void main_menu(){
     lcd.clear();
     
     if(analogRead(bt1) <= 350) index += 1;
-    if(analogRead(bt2) <= 350) index = 0;
+    //if(analogRead(bt2) <= 350) index = 0;
     if(analogRead(bt1) <= 350 && index == 2){
       for(int i = 3; i > 0; i--){
         lcd.clear();
@@ -163,7 +170,7 @@ void main_menu(){
         lcd.setCursor(3, 0);
         lcd.print("Bloqueado!");
         lcd.setCursor(3, 1);
-        lcd.print("Nivel: ");
+        lcd.print("BAC: ");
         lcd.print(result, 2);
         //acende led
         while(true){
@@ -179,6 +186,7 @@ void main_menu(){
         lcd.setCursor(2, 0);
         lcd.print("Resultado: ");
         lcd.setCursor(2, 1);
+        lcd.print("BAC: ");
         lcd.print(result, 2);
         lcd.print(" mg/L");
         delay(4000);
@@ -188,6 +196,10 @@ void main_menu(){
       lcd.print("Aguarde...");
       while(realizaLeitura() > 0.02){
         lcd.clear();
+        lcd.setCursor(0, 1);
+        lcd.print(" BAC: ");
+        lcd.print(realizaLeitura());
+        lcd.print(" mg/L");        
         lcd.setCursor(1, 0);
         lcd.print("Aguarde");
         delay(100);
@@ -241,7 +253,7 @@ void calibrarSensor()
   lcd.setCursor(2, 0);
   lcd.print("Calibrando...");
   lcd.setCursor(2, 1);
-  lcd.print("R0: ");
+  lcd.print(" R0: ");
   lcd.print(mediaResistenciaAr);
   lcd.print("Ohms");
   delay(50);
